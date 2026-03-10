@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,6 +33,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.afanaseva.student_material_design.data.Student
 import com.afanaseva.student_material_design.data.students
 import com.afanaseva.student_material_design.ui.theme.Student_Material_DesignTheme
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.Alignment
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,7 +107,11 @@ fun StudentItem(
 }
 @Composable
 fun StudentApp(){
-    Scaffold { it ->
+    Scaffold (
+        topBar = {
+            StudentTopAppBar()
+        }
+    ) { it ->
         LazyColumn (contentPadding = it){
             items(students){
                 StudentItem(
@@ -120,6 +129,33 @@ fun StudentPreview() {
     Student_Material_DesignTheme(darkTheme = false){
         StudentApp()
     }
+}
+
+@Composable
+fun StudentTopAppBar(modifier: Modifier = Modifier){
+    CenterAlignedTopAppBar(
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Image(
+                    modifier = Modifier
+                        .size(dimensionResource(R.dimen.image_size))
+                        .padding(dimensionResource(R.dimen.padding_medium)),
+                    painter = painterResource(R.drawable.student2),
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.displayLarge
+                )
+            }
+        },
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        ),
+        modifier = modifier
+    )
 }
 
 @Preview
